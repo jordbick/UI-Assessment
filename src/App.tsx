@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme";
-import { StarRating } from "./components/RatingCard/Stars/StarRating";
+import { StarRating } from "./components/RatingCard/StarRating/StarRating";
 export default function App() {
   const data = {
     title: "EXCELLENT",

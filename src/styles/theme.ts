@@ -8,8 +8,14 @@ export const theme = {
     grey: "#d9d9d9",
     yellow: "#ffd100",
 
-    track: "#d9d9d9", // same as grey
+    track: "#d9d9d9",
     accent: "#ffd100",
+  },
+  components: {
+    starRating: {
+      gap: 4,
+      size: 24,
+    },
   },
   typography,
 };

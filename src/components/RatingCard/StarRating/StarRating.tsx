@@ -1,6 +1,6 @@
 import React from "react";
 
-import styled, { css, useTheme } from "styled-components";
+import styled, { css } from "styled-components";
 import { theme } from "../../../styles/theme";
 import { StarIconWhite } from "./StarIconWhite";
 

@@ -1,3 +1,3 @@
-import { StarRating } from "./components/RatingCard/Stars/StarRating";
+import { StarRating } from "./components/RatingCard/StarRating/StarRating";
 
-export { StarRating };
+export { StarRating as StarRating };
