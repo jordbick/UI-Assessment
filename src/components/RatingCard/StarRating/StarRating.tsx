@@ -3,6 +3,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { theme } from "../../../styles/theme";
 import { StarIconWhite } from "./StarIconWhite";
+import { scoreToLabel } from "./StarRatingUtils";
 
 interface Props {
   value: number;
@@ -16,7 +17,31 @@ const useDefaults = (theme: any) => ({
   yellow: theme?.colors?.yellow ?? "#ffd100", // filled color
   grey: theme?.colors?.grey ?? "#d9d9d9", // unfilled color
   radius: theme?.radii?.md ?? 6, // box corner radius
+  labelColor: theme?.colors?.textPrimary ?? "#1a1a1a",
+  captionColor: theme?.colors?.textSecondary ?? "#6b6b6b",
 });
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
+const Label = styled.div<{ $gap: number; $color: string }>`
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: ${({ $color }) => $color};
+  margin-bottom: ${({ $gap }) => $gap * 1.5}px;
+`;
+
+const Caption = styled.div<{ $gap: number; $color: string }>`
+  margin-top: ${({ $gap }) => $gap * 1.5}px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: ${({ $color }) => $color};
+`;
 
 const Row = styled.div<{ $gap: number }>`
   display: inline-flex;
@@ -84,30 +109,47 @@ const Star = styled(StarIconWhite)<{ $size: number }>`
 `;
 
 export const StarRating: React.FC<Props> = ({ value, outOf = 5 }) => {
-  const { cellSize, gap, yellow, grey, radius } = useDefaults(theme);
+  const { cellSize, gap, yellow, grey, radius, labelColor, captionColor } =
+    useDefaults(theme);
 
-  const safe = Math.max(0, Math.min(outOf, value));
+  const score = Math.max(0, Math.min(outOf, value));
   const boxes = Array.from({ length: outOf });
+  const percentScore = outOf > 0 ? score / outOf : 0;
+  const label = scoreToLabel(percentScore);
+  const formattedScore = score.toFixed(1);
 
   return (
-    <Row $gap={gap} role="img" aria-label={`Rating ${safe} out of ${outOf}`}>
-      {boxes.map((_, i) => {
-        const fill = Math.max(0, Math.min(1, safe - i));
-        const fillPct = fill * 100;
+    <Container
+      role="img"
+      aria-label={`${label}. Rating ${formattedScore} out of ${outOf}`}
+    >
+      <Label $gap={gap} $color={labelColor}>
+        {label}
+      </Label>
 
-        return (
-          <Cell
-            key={i}
-            $size={cellSize}
-            $radius={radius}
-            $grey={grey}
-            $yellow={yellow}
-            $fillPct={fillPct}
-          >
-            <Star $size={cellSize} aria-hidden />
-          </Cell>
-        );
-      })}
-    </Row>
+      <Row $gap={gap} role="img" aria-label={`Rating ${score} out of ${outOf}`}>
+        {boxes.map((_, i) => {
+          const fill = Math.max(0, Math.min(1, score - i));
+          const fillPct = fill * 100;
+
+          return (
+            <Cell
+              key={i}
+              $size={cellSize}
+              $radius={radius}
+              $grey={grey}
+              $yellow={yellow}
+              $fillPct={fillPct}
+            >
+              <Star $size={cellSize} aria-hidden />
+            </Cell>
+          );
+        })}
+      </Row>
+
+      <Caption $gap={gap} $color={captionColor}>
+        {formattedScore} OUT OF {outOf}
+      </Caption>
+    </Container>
   );
 };
