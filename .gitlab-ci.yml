@@ -1,0 +1,104 @@
+image: node:16.18.0
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - project: "common/gitlab-ci-templates"
+    file: "/Testing/SonarQube.gitlab-ci.yml"
+  - project: north/t-p/collections/rha/templates/pipeline-templates
+    file:
+      - Versioning.gitlab-ci.yml
+
+variables:
+  OPENSHIFT_PROJECT: "rha-common-services"
+  APP_NAME: $CI_PROJECT_NAME
+  VERSION: $CI_COMMIT_SHORT_SHA
+  ARTIFACT_PATH: "packaged-web"
+  BUILD_PATH: "package-contents"
+
+stages:
+  - install
+  - versioning
+  - build
+  - test
+  - analysis
+  - publish
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+
+cache: &global_cache
+  key: cache-$CI_COMMIT_SHORT_SHA
+  paths:
+    - .npm/
+    - node_modules/
+    - package.json
+    - package-lock.json
+    - infra/
+  policy: pull
+
+install:
+  stage: install
+  variables:
+    NPMRC: $NPMRC
+  script:
+    - printf '%s\n' $NPMRC >.npmrc
+    - npm install --cache .npm --prefer-offline
+  cache:
+    <<: *global_cache
+    policy: push
+
+versioning:
+  stage: versioning
+  variables:
+    GITLAB_TOKEN: $VERSIONING_ACCESS_TOKEN
+    RELEASE_AUTHOR_EMAIL: $VERSIONING_AUTHOR_EMAIL
+  artifacts:
+    reports:
+      dotenv: version.env
+  cache:
+    - <<: *global_cache
+      policy: pull-push
+
+build:
+  stage: build
+  script:
+    - npm run build:lib
+    - npm run build-storybook
+    - mkdir -p $ARTIFACT_PATH && mv storybook-static/* $ARTIFACT_PATH
+    - if ! [ -f $CI_PROJECT_NAME-$VERSION.tgz ]; then mv $CI_PROJECT_NAME-*.tgz $CI_PROJECT_NAME-$VERSION.tgz; fi
+  artifacts:
+    paths:
+      - $ARTIFACT_PATH
+      - $CI_PROJECT_NAME-$VERSION.tgz
+  cache:
+    <<: *global_cache
+
+unit-test:
+  stage: test
+  cache:
+    <<: *global_cache
+  script:
+    - npm run test:ci
+  artifacts:
+    paths:
+      - coverage/lcov.info
+    reports:
+      junit:
+        - reports/unit-test-output.xml
+
+sonarqube:
+  stage: analysis
+  rules:
+    - when: always
+
+publish:
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  variables:
+    REPO: service/rest/v1/components?repository=rha-npm
+  script:
+    - echo "Publishing $CI_PROJECT_NAME-$VERSION.tgz"
+    - 'curl -u "$NEXUS_CREDS_USR:$NEXUS_CREDS_PSW" -X POST "https://${NEXUS_URL}/${REPO}" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "npm.asset=@${CI_PROJECT_NAME}-${VERSION}.tgz;type=application/x-compressed"'
