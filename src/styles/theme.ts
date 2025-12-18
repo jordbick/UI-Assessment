@@ -1,6 +1,6 @@
 import { typography } from "./typography";
 
-export const theme = {
+export const AppTheme = {
   colors: {
     background: "#ffffff",
     textPrimary: "#1a1a1a",
@@ -13,8 +13,7 @@ export const theme = {
   },
   components: {
     starRating: {
-      gap: 4,
-      size: 24,
+      fluid: 'clamp(1rem, 2vw, 1.5rem)',
     },
   },
   typography,

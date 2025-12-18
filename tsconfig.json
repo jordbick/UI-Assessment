@@ -23,5 +23,5 @@
     //"src/**/*.test.tsx",
     "src/**/*.stories.tsx"
   ],
-  "include": ["cypress", "src/components/**/*"]
+  "include": ["src"]
 }
