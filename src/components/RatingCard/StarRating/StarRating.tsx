@@ -29,7 +29,7 @@ export const StarRating: React.FC<Props> = ({ value, outOf = 5 }) => {
     >
       <Label>{label}</Label>
 
-      <Row role="img" aria-label={`Rating ${score} out of ${outOf}`}>
+      <Row aria-label={`Rating ${score} out of ${outOf}`}>
         {boxes.map((_, i) => {
           const fill = Math.max(0, Math.min(1, score - i));
           const fillPct = fill * 100;

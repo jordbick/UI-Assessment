@@ -13,13 +13,12 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   :root {
-    /* Scales between 20px and 48px, fluidly following vmin */
-    --box-size: clamp(20px, 3vmin, 48px);
-    --box-gap: clamp(4px, 0.8vmin, 10px);
-    --radius-md: clamp(4px, 0.8vmin, 8px);
+    --box-size: clamp(1.25rem, 2.5rem, 3rem);
+    --box-gap: clamp(0.25rem, 0.6rem, 0.75rem);
+    --radius-md: clamp(0.25rem, 0.5rem, 0.75rem);
 
-    --font-scale-4: clamp(16px, 2.0vmin, 22px);
-    --font-scale-2: clamp(12px, 1.4vmin, 16px);
+    --font-scale-4: clamp(1rem, 1.4rem, 1.75rem);
+    --font-scale-2: clamp(0.75rem, 1rem, 1.1rem);
   }
 
   body {
