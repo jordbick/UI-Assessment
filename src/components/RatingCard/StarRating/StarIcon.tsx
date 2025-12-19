@@ -2,12 +2,7 @@ import React from "react";
 
 type Props = React.SVGProps<SVGSVGElement>;
 
-/**
- * Pure vector star using currentColor so CSS can color it.
- * No width/height; size is controlled by CSS (styled-components).
- * viewBox is square so it fits neatly in square boxes.
- */
-export const StarIconWhite: React.FC<Props> = (props) => (
+export const StarIcon: React.FC<Props> = (props) => (
   <svg
     viewBox="0 0 28 28"
     preserveAspectRatio="xMidYMid meet"

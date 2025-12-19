@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { StarIconWhite } from "./StarIconWhite";
+import styled from "styled-components";
+import { StarIcon } from "./StarIcon";
 
 export const Container = styled.div`
   display: flex;
@@ -34,7 +34,6 @@ export const Cell = styled.div<{ $fillPct: number }>`
   position: relative;
   width: var(--box-size);
   height: var(--box-size);
-  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,7 +59,7 @@ export const Cell = styled.div<{ $fillPct: number }>`
   }
 `;
 
-export const Star = styled(StarIconWhite)`
+export const Star = styled(StarIcon)`
   position: relative;
   width: 70%;
   height: 70%;

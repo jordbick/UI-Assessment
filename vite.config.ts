@@ -41,12 +41,6 @@ export default defineConfig({
         warn(warning);
       },
       output: {
-        manualChunks: {
-          "mui-material": ["@mui/material"],
-          "mui-extras": ["@mui/lab", "@mui/x-date-pickers"],
-          "material-react-table": ["material-react-table"],
-          "mui-datatables": ["mui-datatables"],
-        },
         globals: {
           react: "React",
           "react-dom": "ReactDOM",

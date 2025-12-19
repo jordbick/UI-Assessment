@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import { AppTheme } from "./styles/theme";
 import { StarRating } from "./components/RatingCard/StarRating/StarRating";
+import { RatingBar } from "./components/RatingCard/RatingBar/RatingBar";
 import { GlobalStyle } from "./styles/GlobalStyle";
 export default function App() {
   const data = {
@@ -15,6 +16,7 @@ export default function App() {
       <GlobalStyle />
       <div className="container" style={{ padding: 24 }}>
         <StarRating value={data.score} outOf={5} />
+        <RatingBar counts={data.counts} />
       </div>
     </ThemeProvider>
   );
