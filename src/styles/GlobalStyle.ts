@@ -2,8 +2,9 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-    --box-size: clamp(1.25rem, 2.5rem, 3rem);
-    --box-gap: clamp(0.25rem, 0.6rem, 0.75rem);
+    --box-size: clamp(1.25rem, 3.2rem, 4.5rem);
+    --box-gap: 2px;
+    --brand-gap: 10px;
     --radius-md: clamp(0.25rem, 0.5rem, 0.75rem);
     --bar-height: clamp(0.5rem, 0.6rem, 0.75rem);
 

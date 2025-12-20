@@ -1,20 +1,21 @@
 import React from "react";
 import { Container } from "./RatingBar.styles";
 import { RatingRow } from "./RatingRow";
-import { ratingsOrder, totalFromCounts } from "./RatingBarUtils";
+import { ratingsOrder } from "../RatingUtils";
 
 export interface RatingBreakdownProps {
   counts: Record<number, number>;
+  total: number;
   outOf?: number;
   desc?: boolean;
 }
 
 export const RatingBar: React.FC<RatingBreakdownProps> = ({
   counts,
+  total,
   outOf = 5,
   desc = true,
 }) => {
-  const total = totalFromCounts(counts);
   const orderedRatings = ratingsOrder(outOf, desc);
 
   return (

@@ -6,34 +6,46 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--box-gap);
+  --label-col: 4.5ch;
+  --count-col: 6ch;
+  --col-gap: 4px;
+  --label-inner-gap: calc(var(--box-gap) / 3);
 `;
 
 export const Row = styled.div`
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: var(--label-col) minmax(0, 1fr) var(--count-col);
   align-items: center;
-  gap: var(--box-gap);
+  column-gap: var(--col-gap);
 `;
 
 export const RatingLabel = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--box-gap) / 2);
+  justify-content: flex-end;
+  gap: var(--label-inner-gap);
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: var(--font-scale-2);
   font-family: ${({ theme }) => theme.typography.fontFamily.primary};
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  inline-size: var(--label-col);
+  justify-self: end;
+  column-gap: var(--col-gap);
 `;
 
 export const SmallStar = styled(StarIcon)`
   width: 1em;
   height: 1em;
   color: ${({ theme }) => theme.colors.grey};
+  flex-shrink: 0;
+  column-gap: var(--col-gap);
 `;
 
 export const Bar = styled.div<{ $fillPct: number }>`
   position: relative;
   height: var(--bar-height);
-  border-radius: var(--radius-md);
+  border-radius: 0;
   overflow: hidden;
 
   /* Grey track */
@@ -42,7 +54,6 @@ export const Bar = styled.div<{ $fillPct: number }>`
     position: absolute;
     inset: 0;
     background: ${({ theme }) => theme.colors.grey};
-    border-radius: var(--radius-md);
     z-index: 0;
   }
 
@@ -55,17 +66,7 @@ export const Bar = styled.div<{ $fillPct: number }>`
     width: ${({ $fillPct }) => $fillPct}%;
     height: 100%;
     background: ${({ theme }) => theme.colors.yellow};
-    border-top-left-radius: var(--radius-md);
-    border-bottom-left-radius: var(--radius-md);
     z-index: 1;
-
-    /* If fully filled, round both ends to match track */
-    ${({ $fillPct }) =>
-      $fillPct >= 99.9 &&
-      css`
-        border-top-right-radius: var(--radius-md);
-        border-bottom-right-radius: var(--radius-md);
-      `}
   }
 `;
 
@@ -73,5 +74,9 @@ export const CountText = styled.div`
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: var(--font-scale-2);
   font-family: ${({ theme }) => theme.typography.fontFamily.primary};
-  text-align: right;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  inline-size: var(--count-col);
+  justify-self: end;
 `;

@@ -2,13 +2,17 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  moduleNameMapper: {
-    "\\.(css|less)$": "identity-obj-proxy"
-  },
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
-  transformIgnorePatterns: ["<rootDir>/node_modules/(?!@ukic)"],
   transform: {
-    "\\.(js)$": "babel-jest"
+    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(js|jsx)$": "babel-jest",
   },
-  workerIdleMemoryLimit: "512MB"
+
+  globals: {
+    "ts-jest": {
+      tsconfig: "<rootDir>/tsconfig.jest.json",
+    },
+  },
+  testMatch: ["<rootDir>/src/**/*.test.ts", "<rootDir>/src/**/*.test.tsx"],
+  workerIdleMemoryLimit: "512MB",
 };

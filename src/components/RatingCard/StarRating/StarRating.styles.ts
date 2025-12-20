@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { StarIcon } from "./StarIcon";
 
 export const Container = styled.div`
@@ -12,7 +12,6 @@ export const Label = styled.div`
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-size: var(--font-scale-4);
-  color: ${({ theme }) => theme.colors.textPrimary};
   margin-bottom: var(--box-gap);
 `;
 
@@ -28,6 +27,7 @@ export const Row = styled.div`
   display: inline-flex;
   gap: var(--box-gap);
   align-items: center;
+  margin: 16px;
 `;
 
 export const Cell = styled.div<{ $fillPct: number }>`
@@ -43,19 +43,34 @@ export const Cell = styled.div<{ $fillPct: number }>`
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: var(--radius-md);
     z-index: 0;
   }
 
   /* Grey base box */
   &::before {
     background: ${({ theme }) => theme.colors.grey};
+    border-radius: var(--radius-md);
   }
 
   /* Yellow overlay for the filled portion */
   &::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
     width: ${({ $fillPct }) => $fillPct}%;
+    height: 100%;
     background: ${({ theme }) => theme.colors.yellow};
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+    z-index: 0;
+
+    /* If fully filled, round both ends to match base */
+    ${({ $fillPct }) =>
+      $fillPct >= 99.9 &&
+      css`
+        border-top-right-radius: var(--radius-md);
+        border-bottom-right-radius: var(--radius-md);
+      `}
   }
 `;
 
@@ -63,6 +78,6 @@ export const Star = styled(StarIcon)`
   position: relative;
   width: 70%;
   height: 70%;
-  color: ${({theme}) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.background};
   z-index: 1;
 `;
