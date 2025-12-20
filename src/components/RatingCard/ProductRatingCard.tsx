@@ -4,7 +4,7 @@ import { RatingCard } from "./RatingCard.styles";
 import { StarRating } from "./StarRating/StarRating";
 import { RatingBar } from "./RatingBar/RatingBar";
 import { RatingBrand } from "./RatingBrand/RatingBrand";
-import { computeRatingStats, normaliseCountsAndOutOf } from "./RatingUtils";
+import { computeRatingStats } from "./RatingUtils";
 
 type Props = {
   counts: Record<number, number>;
@@ -12,16 +12,19 @@ type Props = {
 };
 
 export const ProductRatingCard: React.FC<Props> = ({ counts, desc = true }) => {
-  const { outOf, counts: safeCounts } = normaliseCountsAndOutOf(counts);
-  const ratingStats = computeRatingStats(safeCounts, outOf);
+  const ratingStats = computeRatingStats(counts);
   return (
     <RatingCard aria-label="Product rating">
-      <StarRating outOf={ratingStats.outOf} average={ratingStats.average} percent={ratingStats.averageAsPercent} />
+      <StarRating
+        outOf={ratingStats.outOf}
+        average={ratingStats.average}
+        percent={ratingStats.averageAsPercent}
+      />
       <RatingBrand />
       <RatingBar
-        counts={safeCounts}
+        counts={ratingStats.safeCounts}
         total={ratingStats.total}
-        outOf={outOf}
+        outOf={ratingStats.outOf}
         desc={desc}
       />
     </RatingCard>

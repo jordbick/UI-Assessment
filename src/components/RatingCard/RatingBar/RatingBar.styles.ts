@@ -26,7 +26,6 @@ export const RatingLabel = styled.div`
   gap: var(--label-inner-gap);
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: var(--font-scale-2);
-  font-family: ${({ theme }) => theme.typography.fontFamily.primary};
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "lnum" 1;
   inline-size: var(--label-col);
@@ -73,7 +72,6 @@ export const Bar = styled.div<{ $fillPct: number }>`
 export const CountText = styled.div`
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: var(--font-scale-2);
-  font-family: ${({ theme }) => theme.typography.fontFamily.primary};
   text-align: left;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "lnum" 1;

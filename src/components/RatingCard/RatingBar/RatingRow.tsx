@@ -7,19 +7,18 @@ import {
   CountText,
 } from "./RatingBar.styles";
 
-export interface RatingBreakdownRowProps {
+interface RatingRowProps {
   rating: number;
   count: number;
   total: number;
 }
 
-export const RatingRow: React.FC<RatingBreakdownRowProps> = ({
+export const RatingRow: React.FC<RatingRowProps> = ({
   rating,
   count,
   total,
 }) => {
   const fillPct = total > 0 ? (count / total) * 100 : 0;
-
   return (
     <Row
       role="group"

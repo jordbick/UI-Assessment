@@ -15,7 +15,7 @@ const asNonNegativeInt = (n: unknown): number => {
  *
  * If there are no valid positive keys, returns outOf = 0 and counts = {}.
  */
-export function normaliseCountsAndOutOf(counts: Record<number, number>): {
+function normaliseCountsAndOutOf(counts: Record<number, number>): {
   outOf: number;
   counts: Record<number, number>;
 } {
@@ -49,34 +49,33 @@ export function normaliseCountsAndOutOf(counts: Record<number, number>): {
 /**
  * Calculates the average score and percentage
  */
-export function computeRatingStats(
-  counts: Record<number, number>,
-  outOf: number
-): {
+export function computeRatingStats(counts: Record<number, number>): {
   outOf: number;
   total: number;
   average: number;
   averageAsPercent: number;
+  safeCounts: Record<number, number>;
 } {
-  const total = Object.values(counts).reduce(
+  const { outOf, counts: safeCounts } = normaliseCountsAndOutOf(counts);
+  const total = Object.values(safeCounts).reduce(
     (sum, n) => sum + asNonNegativeInt(n),
     0
   );
 
   let weightedTotal = 0;
-
   if (outOf === 0) {
     // No valid keys
     return {
-      outOf: 0,
+      outOf,
       total: 0,
       average: 0,
       averageAsPercent: 0,
+      safeCounts: safeCounts,
     };
   }
 
-  for (let rating = 1; rating <= outOf; rating += 1) {
-    const count = counts[rating] ?? 0;
+  for (let rating = 1; rating <= outOf; rating++) {
+    const count = safeCounts[rating] ?? 0;
     const weight = rating * count;
     weightedTotal += weight;
   }
@@ -89,13 +88,6 @@ export function computeRatingStats(
     total,
     average,
     averageAsPercent,
+    safeCounts,
   };
-}
-
-/**
- * Order ratings 1..outOf (desc by default).
- */
-export function ratingsOrder(outOf: number, desc = true): number[] {
-  const ratings = Array.from({ length: outOf }, (_, i) => i + 1);
-  return desc ? ratings.reverse() : ratings;
 }

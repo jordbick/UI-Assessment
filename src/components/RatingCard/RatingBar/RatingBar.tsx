@@ -1,9 +1,9 @@
 import React from "react";
 import { Container } from "./RatingBar.styles";
 import { RatingRow } from "./RatingRow";
-import { ratingsOrder } from "../RatingUtils";
+import { ratingsOrder } from "./RatingBarUtils";
 
-export interface RatingBreakdownProps {
+interface RatingBreakdownProps {
   counts: Record<number, number>;
   total: number;
   outOf?: number;
@@ -17,7 +17,6 @@ export const RatingBar: React.FC<RatingBreakdownProps> = ({
   desc = true,
 }) => {
   const orderedRatings = ratingsOrder(outOf, desc);
-
   return (
     <Container
       role="region"

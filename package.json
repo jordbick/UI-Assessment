@@ -31,7 +31,6 @@
     "@emotion/styled": "^11.11.5",
     "@mdi/js": "^7.4.47",
     "@rollup/plugin-terser": "^0.4.4",
-    "material-react-table": "^2.13.0",
     "styled-components": "^6.1.19",
     "url": "^0.11.4"
   },

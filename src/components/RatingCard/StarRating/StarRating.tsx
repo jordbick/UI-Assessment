@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { scoreToLabel } from "./StarRatingUtils";
 import {
@@ -23,7 +23,11 @@ export const StarRating: React.FC<Props> = ({
 }) => {
   const boxes = Array.from({ length: outOf });
   const label = scoreToLabel(percent);
-  const formattedScore = average.toFixed(1);
+  const formattedScore = useMemo(
+    // toString will remove .0 if present
+    () => Number(average.toFixed(1)).toString(),
+    [average]
+  );
 
   return (
     <Container
@@ -34,7 +38,6 @@ export const StarRating: React.FC<Props> = ({
       <Row>
         {boxes.map((_, i) => {
           const fill = Math.max(0, Math.min(1, average - i));
-          console.log(fill);
           const fillPct = fill * 100;
 
           return (
