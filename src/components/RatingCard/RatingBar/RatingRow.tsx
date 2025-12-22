@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Row,
   RatingLabel,
@@ -33,4 +34,10 @@ export const RatingRow: React.FC<RatingRowProps> = ({
       <CountText>{count}</CountText>
     </Row>
   );
+};
+
+RatingRow.propTypes = {
+  rating: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
 };

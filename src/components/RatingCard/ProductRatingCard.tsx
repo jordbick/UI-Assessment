@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import { RatingCard } from "./RatingCard.styles";
 import { StarRating } from "./StarRating/StarRating";
 import { RatingBar } from "./RatingBar/RatingBar";
@@ -29,4 +29,9 @@ export const ProductRatingCard: React.FC<Props> = ({ counts, desc = true }) => {
       />
     </RatingCard>
   );
+};
+
+ProductRatingCard.propTypes = {
+  counts: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+  desc: PropTypes.bool,
 };

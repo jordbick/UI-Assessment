@@ -7,7 +7,6 @@ module.exports = {
     "^.+\\.(ts|tsx)$": "ts-jest",
     "^.+\\.(js|jsx)$": "babel-jest",
   },
-
   globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/tsconfig.jest.json",

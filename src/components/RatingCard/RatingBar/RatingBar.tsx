@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Container } from "./RatingBar.styles";
 import { RatingRow } from "./RatingRow";
 import { ratingsOrder } from "./RatingBarUtils";
@@ -30,4 +31,11 @@ export const RatingBar: React.FC<RatingBreakdownProps> = ({
       })}
     </Container>
   );
+};
+
+RatingBar.propTypes = {
+  counts: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+  total: PropTypes.number.isRequired,
+  outOf: PropTypes.number,
+  desc: PropTypes.bool,
 };

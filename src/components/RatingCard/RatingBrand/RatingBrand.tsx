@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import { Wrapper, Label, Icon } from "./RatingBrand.styles";
 
 type Props = {
@@ -17,4 +17,9 @@ export const RatingBrand: React.FC<Props> = ({
       <Icon />
     </Wrapper>
   );
+};
+
+RatingBrand.propTypes = {
+  label: PropTypes.string,
+  className: PropTypes.string,
 };
